@@ -1,0 +1,21 @@
+[project]
+name = "pyunifi_ng-khtadmin"
+version = "0.0.1"
+authors = [
+  { name="KHT Admin", email="author@example.com" },
+]
+description = "API for interacting with NeXT Gen UniFi Consoles"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies=[
+  "requests",
+  "urllib3",
+]
+
+[tool.ruff]
+line-length = 79
+target-version = "py310"
+
+[tool.ruff.mccabe]
+# Unlike Flake8, default to a complexity level of 10.
+max-complexity = 10

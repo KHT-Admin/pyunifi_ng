@@ -1,0 +1,41 @@
+ <dhcpd>
+    <opt3>
+      <enable>1</enable>
+      <numberoptions/>
+      <range>
+        <from>192.168.110.50</from>
+        <to>192.168.110.55</to>
+      </range>
+      <staticmap>
+        <mac>00:25:90:cd:0d:98</mac>
+        <ipaddr>192.168.110.100</ipaddr>
+        <hostname>110-100</hostname>
+        <descr>Backup</descr>
+      </staticmap>
+    </opt3>
+    <opt7>
+      <enable>1</enable>
+      <numberoptions/>
+      <range>
+        <from>192.168.245.46</from>
+        <to>192.168.245.56</to>
+      </range>
+      <staticmap>
+        <mac>c8:5b:76:4f:ae:a0</mac>
+        <ipaddr>192.168.245.34</ipaddr>
+        <hostname>245-34</hostname>
+        <descr> laptop 28.11.2016</descr>
+      </staticmap>
+      <staticmap>
+        <mac>c8:5b:76:4f:a4:f3</mac>
+        <ipaddr>192.168.245.35</ipaddr>
+        <hostname>245-35</hostname>
+        <descr> laptop 28.11.2016</descr>
+      </staticmap>
+      <staticmap>
+        <mac>50:7B:9D:E4:7B:F0</mac>
+        <ipaddr>192.168.245.36</ipaddr>
+        <hostname>245-36</hostname>
+        <descr> laptop 20.12.2016</descr>
+      </staticmap>
+    </opt7>
