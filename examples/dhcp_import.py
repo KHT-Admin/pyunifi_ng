@@ -39,12 +39,12 @@ def device_encode(data: iter) -> list[dict]:
     return reservations
 
 
-def device_upload(data: list[dict], c) -> dict:
+def device_upload(data: list[dict], client: pyunifi_ng.Client) -> dict:
     failed = []
-    c.login()
+    client.login()
     for record in data:
         try:
-            c.add_dhcp_reservation(record)
+            client.add_dhcp_reservation(record)
         except requests.exceptions.HTTPError:
             """API returns error if subnet is not configured or reservation exists"""
             failed.append(record)
@@ -72,9 +72,9 @@ def parse_args():
 
 def main():
     a = parse_args()
-    c = pyunifi_ng.Client(a.user, a.pwd, host=a.host, port=a.port)
+    client = pyunifi_ng.Client(a.user, a.pwd, host=a.host, port=a.port)
 
-    r = process(a.path, a.decoder, c)
+    r = process(a.path, a.decoder, client)
     print(r)
 
 
