@@ -37,7 +37,7 @@ class Client:
         self.password: str = password
         self.host: str = host
         self.port: int = port
-        self.verify: Union[bool, str] = verify
+        self.verify: bool = verify
         self.is_unifi_os: bool = False
         self.session: Optional[requests.Session] = None
         self.headers = None
