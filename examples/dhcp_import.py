@@ -14,8 +14,13 @@ def read_file(path: str) -> str:
     return data
 
 
-def extract_static(data: str, pattern):
-    decoder = OPNS if pattern == "OPNS" else ER
+def extract_static(data: str):
+    """Find matching decoder"""
+    for decoder in {ER, OPNS}:
+        if re.search(decoder, data, re.I) is not None:
+            break
+    else:
+        raise Exception("Cannot find a matching pattern")
 
     return re.finditer(
         decoder,
@@ -42,6 +47,7 @@ def device_encode(data: iter) -> list[dict]:
 def device_upload(data: list[dict], client: pyunifi_ng.Client) -> dict:
     failed = []
     client.login()
+
     for record in data:
         try:
             client.add_dhcp_reservation(record)
@@ -51,8 +57,8 @@ def device_upload(data: list[dict], client: pyunifi_ng.Client) -> dict:
     return {"n_failed": len(failed), "failed": failed}
 
 
-def process(path: str, pattern, client):
-    s = extract_static(read_file(path), pattern=pattern)
+def process(path: str, client):
+    s = extract_static(read_file(path))
     d = device_encode(s)
 
     return device_upload(d, client)
@@ -61,7 +67,6 @@ def process(path: str, pattern, client):
 def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument("path")
-    parser.add_argument("decoder", choices=["ER", "OPNS"], help="config type")
     parser.add_argument("user", help="username")
     parser.add_argument("pwd", help="password")
     parser.add_argument("host")
@@ -74,7 +79,7 @@ def main():
     a = parse_args()
     client = pyunifi_ng.Client(a.user, a.pwd, host=a.host, port=a.port)
 
-    r = process(a.path, a.decoder, client)
+    r = process(a.path, client)
     print(r)
 
 
