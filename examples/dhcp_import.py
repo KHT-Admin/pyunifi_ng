@@ -6,6 +6,7 @@ import requests
 
 ER = r"static-mapping\s+(?P<name>[a-zA-Z0-9\s\-_\.]+)[\W\w]+?(?P<fixed_ip>(?:[0-9]{1,3}\.?){4})[\W\w]+?(?P<mac>(?:[0-9a-fA-Fx]{2}\:?){6})"
 OPNS = r"<staticmap>[\W\w]+?(?P<mac>(?:[0-9a-fA-Fx]{2}\:?){6})[\W\w]+?(?P<fixed_ip>(?:[0-9]{1,3}\.?){4})[\W\w]+?<hostname>(?P<name>.+?)</hostname>[\W\w]+?<descr>(?P<note>.+?)</descr>"
+MTIK = r"add\saddress=(?P<fixed_ip>(?:[0-9]{1,3}\.){3}[0-9]{1,3})[\W\w]comment=(?P<name>(?:[a-zA-z\-]+))[\W\w]mac-address=(?P<mac>(?:[0-9a-fA-Fx]{2}\:?){6})[\W\w]+?"
 
 
 def read_file(path: str) -> str:
@@ -16,7 +17,7 @@ def read_file(path: str) -> str:
 
 def extract_static(data: str):
     """Find matching decoder"""
-    for decoder in {ER, OPNS}:
+    for decoder in {ER, OPNS, MTIK}:
         if re.search(decoder, data, re.I) is not None:
             break
     else:
