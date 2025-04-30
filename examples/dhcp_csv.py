@@ -22,14 +22,10 @@ def read_csv(csvfile: str) -> list[dict]:
 
 def device_encode(data: list[dict]) -> list[dict]:
     for device in data:
-        if device.get("fixed_ip") == "":
-            device.pop("fixed_ip")
-        else:
+        if device.get("fixed_ip", "") != "":
             device.update({"use_fixedip": True})
 
-        if device.get("local_dns_record") == "":
-            device.pop("local_dns_record")
-        else:
+        if device.get("local_dns_record", "") != "":
             device.update({"local_dns_record_enabled": True})
 
     return data
