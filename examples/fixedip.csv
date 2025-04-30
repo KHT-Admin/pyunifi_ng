@@ -1,0 +1,3 @@
+"mac","fixed_ip","name","local_dns_record"
+"aa:bb:cc:dd:ee:11","192.168.1.234",,
+"aa:bb:cc:dd:ee:22","192.168.1.235","Dummy","dummy.example.com"
