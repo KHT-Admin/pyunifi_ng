@@ -332,8 +332,8 @@ class Client:
         members: list = [],
         type="CLIENTS",
     ):
-        self._api_write(
-            "network-members-group",
+        self._api_update(
+            f"network-members-group/{group_id}",
             params={
                 "json": {
                     "id": group_id,
