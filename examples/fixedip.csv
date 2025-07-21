@@ -1,3 +1,4 @@
-"mac","fixed_ip","name","local_dns_record"
-"aa:bb:cc:dd:ee:11","192.168.1.234",,
-"aa:bb:cc:dd:ee:22","192.168.1.235","Dummy","dummy.example.com"
+"mac","fixed_ip","name","local_dns_record","note","group_name"
+"04:69:F8:dd:ee:11","192.168.1.234",,,,"Servers"
+"10:B5:88:dd:ee:22","192.168.1.235","Dummy","dummy.example.com","This is a comment.","Servers"
+"1C:91:80:dd:ee:33",,,,,"Random"
