@@ -15,17 +15,24 @@ CSVFILE = "fixedip.csv"
 def read_csv(csvfile: str) -> list[dict]:
     with open(csvfile, "r") as f:
         reader = DictReader(f)
-        data = [row for row in reader]
-
+        data = [
+            {
+                k: v
+                for k, v in row.items()
+                if (k in {"mac", "fixed_ip", "name", "local_dns_record", "note"})
+                & (v is not None)
+            }
+            for row in reader
+        ]
     return data
 
 
 def device_encode(data: list[dict]) -> list[dict]:
     for device in data:
-        if device.get("fixed_ip", "") != "":
+        if device.get("fixed_ip", None) is not None:
             device.update({"use_fixedip": True})
 
-        if device.get("local_dns_record", "") != "":
+        if device.get("local_dns_record", None) is not None:
             device.update({"local_dns_record_enabled": True})
 
     return data
@@ -33,7 +40,6 @@ def device_encode(data: list[dict]) -> list[dict]:
 
 def device_upload(data: list[dict], client: pyunifi_ng.Client) -> dict:
     failed = []
-    client.login()
 
     for record in data:
         try:
