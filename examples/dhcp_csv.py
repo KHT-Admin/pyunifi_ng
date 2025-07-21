@@ -50,17 +50,18 @@ def device_upload(data: list[dict], client: pyunifi_ng.Client) -> dict:
     return {"n_failed": len(failed), "failed": failed}
 
 
-def process(path: str, client):
-    s = read_csv(path)
-    d = device_encode(s)
-
-    return device_upload(d, client)
+def process(path: str, apiclient):
+    clients = read_csv(path)
+    devices = device_encode(clients)
+    return device_upload(devices, apiclient)
 
 
 def main():
-    client = pyunifi_ng.Client(USER, PWD, host=HOST, port=PORT)
+    apiclient = pyunifi_ng.Client(USER, PWD, host=HOST, port=PORT)
 
-    failed = process(CSVFILE, client)
+    apiclient.login()
+    failed = process(CSVFILE, apiclient)
+    apiclient.logout()
 
     # print failures
     print(failed)

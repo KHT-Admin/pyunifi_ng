@@ -81,6 +81,8 @@ def main():
     client = pyunifi_ng.Client(a.user, a.pwd, host=a.host, port=a.port)
 
     r = process(a.path, client)
+
+    # print failures
     print(r)
 
 
