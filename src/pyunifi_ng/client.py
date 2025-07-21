@@ -247,6 +247,23 @@ class Client:
                 }
             },
             api=API.v2,
+        ).json()
+
+    def write_networkconf(self, data: dict):
+        # POST /api/s/default/rest/networkconf
+        return self._api_write(
+            "rest/networkconf",
+            params={
+                "json": data,
+            },
+            api=API.v1,
+        )
+
+    def get_zones(self):
+        # GET /v2/api/site/default/firewall/zone
+        return self._api_read(
+            "firewall/zone",
+            api=API.v2,
         )
 
     def get_firewall_policies(
