@@ -282,3 +282,48 @@ class Client:
             },
             api=API.v1,
         )
+
+    def add_network_members_group(
+        self,
+        name: str,
+        members: list = [],
+        type="CLIENTS",
+    ):
+        ### {"name":"NAME","members":[],"type":"CLIENTS"}
+        self._api_write(
+            "network-members-group",
+            params={
+                "json": {
+                    "name": name,
+                    "members": members,
+                    "type": type,
+                },
+            },
+            api=API.v2,
+        )
+
+    def get_network_members_groups(self):
+        return self._api_read(
+            "network-members-groups",
+            api=API.v2,
+        ).json()
+
+    def update_network_members_group(
+        self,
+        group_id: str,
+        name: str,
+        members: list = [],
+        type="CLIENTS",
+    ):
+        self._api_write(
+            "network-members-group",
+            params={
+                "json": {
+                    "id": group_id,
+                    "name": name,
+                    "members": members,
+                    "type": type,
+                },
+            },
+            api=API.v2,
+        )
