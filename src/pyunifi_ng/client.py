@@ -31,7 +31,7 @@ class Client:
         host: str = "127.0.0.1",
         port: int = 443,
         verify: bool = False,
-        site_id="default",
+        site_name="Default",
     ):
         self.username: str = username
         self.password: str = password
@@ -41,7 +41,8 @@ class Client:
         self.is_unifi_os: bool = False
         self.session: Optional[requests.Session] = None
         self.headers = None
-        self.site_id = site_id
+        self.site_name = site_name
+        self.site_id = ""
 
     def logout(self):
         self._request(
@@ -59,11 +60,11 @@ class Client:
 
         self._verify_network_type()
         self._api_authenticate()
+        self.site_id = self.get_site_ids().get(self.site_name)
 
     @property
     def _base_url(self) -> str:
-        url = f"https://{self.host}:{self.port}/"
-        return url
+        return f"https://{self.host}:{self.port}/"
 
     @staticmethod
     def _jsondecode(response) -> dict:
@@ -201,7 +202,7 @@ class Client:
 
     def get_sites_overview(
         self,
-        pageSize: int = 1000,
+        pageSize: int = 20,
         pageNumber: int = 0,
         searchText: str = "",
         _id: str = "",
@@ -220,7 +221,10 @@ class Client:
         ).json()
 
     def get_site_ids(self, search_text=""):
-        r = self.get_sites_overview(search_text)
+        return {
+            site["description"]: site["name"]
+            for site in self.get_sites_overview(searchText=search_text)["data"]
+        }
 
     def get_devices(self) -> list[dict]:
         """
