@@ -20,7 +20,7 @@ def read_csv(csvfile: str) -> list[dict]:
                 k: v
                 for k, v in row.items()
                 if (k in {"mac", "fixed_ip", "name", "local_dns_record", "note"})
-                & (v is not None)
+                & (v != "")
             }
             for row in reader
         ]
@@ -29,10 +29,10 @@ def read_csv(csvfile: str) -> list[dict]:
 
 def device_encode(data: list[dict]) -> list[dict]:
     for device in data:
-        if device.get("fixed_ip", None) is not None:
+        if device.get("fixed_ip"):
             device.update({"use_fixedip": True})
 
-        if device.get("local_dns_record", None) is not None:
+        if device.get("local_dns_record"):
             device.update({"local_dns_record_enabled": True})
 
     return data
